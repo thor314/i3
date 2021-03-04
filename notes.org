@@ -1,0 +1,140 @@
+* i3
+** https://medium.com/@marinalimeira/getting-started-with-i3wm-c55a49bb9652
+set $mod Mod4
+
+# i3 default font
+font pango:System San Francisco Display 9
+
+# I use those colors at bar and window color settings
+set $bg-color 	         #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color 	 #E53935
+
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 14"
+
+# you need to bind some keys like volume and brightness
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+	  # increase sound volume
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- 	# decrease sound volume
+bindsym XF86AudioMute exec amixer -D pulse sset Master -- 0% 		    # mute sound
+
+bindsym XF86MonBrightnessUp exec xbacklight + 10 			              # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight - 10 			            # decrease screen brightness
+
+# I use spotify as music player, so I had to setup play/pause keys too
+bindsym XF86AudioPrev exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+bindsym XF86AudioPlay exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym XF86AudioNext exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color          $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent 		      $urgent-bg-color   $urgent-bg-color   $text-color          #00ff00
+
+bar {
+  status_command i3status
+  tray_output primary
+
+	colors {
+		background $bg-color
+	  separator #757575
+		#                  border             background         text
+		focused_workspace  $bg-color          $bg-color          $text-color
+		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+	}
+}
+
+# if you don’t manually set your wallpaper, it will be anything but the right one.
+exec_always — no-startup-id feh — bg-scale /home/thor/Pictures/wallpaper.png
+*** Try Rofi for menu bar, as a replacement to dmenu
+*** Use mod+d for open program command
+** https://opensource.com/article/18/8/getting-started-i3-window-manager
+Gen the config, customize it how I will. select a mod key
+
+*** consider replacing GDM login screen with lightdm or equiv to minimize memory usage.
+
+** default Keybinds
+https://fedoramagazine.org/getting-started-i3-window-manager/
+*** Mod enter to enter a terminal
+*** mod d to open an app
+*** mod v to splet screen differently
+*** mod f to go fullscreen
+*** mod shift q to close a window
+*** mod (shift) <#> to switch to new workspace
+*** mod shift e exits
+*** i3-config-wizard to help config
+*** mod shift r to reload config
+*** Further useful packages:
+alsamixer: Lets you change the volume of speakers / headphones in a terminal
+xbacklight: Changes brightness of screen in a terminal
+nmcli: Command line interface to NetworkManager
+links: Text-based web browser
+irssi: CLI-based IRC client
+mc: mc, Midnight Commander, is an advanced file manager in the terminal
+glances: Shows system status
+
+*** This setting changes terminal default: change i3... to gnome-terminal or equiv
+#+begin_quote
+bindsym $mod+Return exec i3-sensible-terminal
+#+end_quote
+
+*** This setting changes graphical interface:
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+*** Keep on rolling, this is the article that keeps on giving.
+** https://swatij.me/tools/i3/getting-started-with-i3-the-tiling-window-manager
+*** some nice packages
+i3status - The status bar for everything that you want to keep monitoring.
+i3lock - Screen locker.
+dmenu - The application menu.
+feh - For desktop wallpaper (Yeah! i3 does not handle that for you)
+dunst - Well! notifications are important.
+scrot - Sometimes you need screenshots.
+NetworkManager-gnome - For managing network connections from the status bar.
+
+*** some bindsyms
+launch/kill apps
+bindsym Ctrl+Mod1+t exec konsole
+bindsym Mod1+F4 kill
+bindsym Mod4+b exec google-chrome
+bindsym Mod4+e exec dolphin
+
+volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle
+
+screenshot
+bindsym Print exec "scrot -e 'mv $f ~/Pictures'"
+
+lock screen
+bindsym Ctrl+Mod1+l exec --no-startup-id i3lock -i Pictures/wallpaper.jpeg
+
+auto lock after 5 minutes of inactivity
+
+exec --no-startup-id xautolock -time 5 -locker "i3lock -i Pictures/wallpaper.png"
+remember desktop wallpaper
+
+exec --no-startup-id ~/.fehbg
+Note: For setting the wallpaper first time, use feh --bg-scale /path/to/wallpaper. Now that scale is variable thing, you can choose from other options to decide how your wallpaper should render on screen. See man feh for details.
+
+network manager
+
+exec --no-startup-id nm-applet
+bluetooth devices
+
+exec --no-startup-id blueman-applet
+
+status bar
+position top
+
+*** Mod j/; swich vertically split windows
+*** Mod k/l switch horizonally split windows
+*** mod h/v - horizotal/vert split on opening
+*** Mod f fullscreen
+** The actual docs https://i3wm.org/docs/userguide.html
