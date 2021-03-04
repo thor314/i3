@@ -12,19 +12,20 @@ set $inactive-text-color #676E7D
 set $urgent-bg-color 	 #E53935
 exec_always — no-startup-id feh — bg-scale /home/thor/Pictures/ditherpunk.png
 
-# logout without prompt
+# Want: logout without prompt
+# TODO: Not working.
 bindsym $mod+Shift+e exit
+
+# TODO Turn off the red "configured command for this shortcut could not be run successfully" bit
 
 # TODO: want application Launcher better than dmenu
 
 # TODO: Bluetooth setup really bad, maybe blueman?
 
-# swap scrolling dir to natural
-# TODO: Not working.
-# --no-startup-id: disable startup-noti support for this execution.
-exec --no-startup-id synclient HorizEdgeScroll=1 VertEdgeScroll=-2 VertScrollDelta=-111
+# Set natural scrolling in xorg.conf.d. If not functional, uncomment this line.
+# exec --no-startup-id synclient HorizEdgeScroll=1 VertEdgeScroll=-1 VertScrollDelta=-111
 
-# clipboard manager if problems persist
+# clipboard manager: uncomment to modify clipboard behavior.
 # exec --no-startup-id clipit
 
 set $mod Mod4
@@ -32,12 +33,13 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
-
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# TODO Turn off the red "configured command for this shortcut could not be run successfully" bit
+################
+# Applications #
+################
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -60,8 +62,12 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
+# start a terminal, and start one on startup
 bindsym $mod+Return exec gnome-terminal
+
+# startup applications
+exec emacs
+exec brave-browser
 
 # kill focused window
 bindsym $mod+Shift+quotedbl kill
