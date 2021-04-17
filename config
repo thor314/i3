@@ -1,9 +1,12 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 # Todo:
-# - background
+# - background image
 # - Fnkeys
 # - xdg customize
 # - understand xss-lock
+# further theme customization: j4-make-config
+# - better bar than i3bar: https://github.com/polybar/polybar
+# - better status than i3status: https://github.com/brndnmtthws/conky
 
 # Set modkey to Super
 set $mod Mod4
@@ -31,9 +34,16 @@ bindsym $mod+Shift+b exec brave-browser-stable
 bindsym $mod+Shift+o exec telegram
 bindsym $mod+o exec signal
 
-# startup applications
+# startup applications; some apps require some coercing.
+# TODO: for-window sortof works.
+for_window [class="Discord"] move container to workspace $ws1
+for_window [class="telegram"] move container to workspace $ws1
+for_window [class="signal-desktop"] move container to workspace $ws1
+for_window [class="Spotify"] move container to workspace $ws10
+for_window [class="brave-browser-stable"] move container to workspace $ws9
 exec --no-startup-id i3-msg 'workspace 2; exec emacs'
 exec --no-startup-id i3-msg 'workspace 10; exec gnome-terminal'
+exec --no-startup-id i3-msg 'workspace 10; exec spotify'
 exec --no-startup-id i3-msg 'workspace 9; exec brave-browser-stable'
 exec --no-startup-id i3-msg 'workspace 1; exec signal-desktop'
 exec --no-startup-id i3-msg 'workspace 1; exec /opt/telegram/telegram'
@@ -43,16 +53,24 @@ exec --no-startup-id i3-msg 'workspace 1; exec /usr/share/discord/Discord'
 bindsym $mod+Shift+e exit
 # kill focused window (quotedbl=\')
 bindsym $mod+Shift+quotedbl kill
+# jump urgent
+bindsym $mod+x [urgent=latest] focus
 
 # rofi (dmenu replacement) program launcher. Can also run terminal commands.
 # ref: https://wiki.archlinux.org/index.php/Rofi#Rofi_as_dmenu_replacement
 # select theme with rofi-theme-selector
 bindsym $mod+space exec --no-startup-id "rofi -show drun -font \\"DejaVu 9\\" -run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s\\"'"
+# https://wiki.archlinux.org/index.php/Rofi#Rofi_as_dmenu_replacement
+exec --no-startup-id rofi -theme gruvbox-dark-soft
+
+# screenshots
+bindsym --release Print exec --no-startup-id scrot
+bindsym --release Shift+Print exec --no-startup-id scrot -s
 
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+t focus down
-bindsym $mod+n focus upb
+bindsym $mod+n focus up
 bindsym $mod+s focus right
 
 # move focused window
@@ -129,8 +147,18 @@ mode "resize" {
 }
 bindsym $mod+p mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+# display a workspace bar plus i3status info
 bar {
-    status_command i3status
+    status_command    i3status
+    position          bottom
+    workspace_buttons yes
+    colors {
+        background #222222
+        statusline #ffffff
+        focused_workspace #aaaaaa #285577
+        active_workspace  #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
+
 }
