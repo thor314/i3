@@ -1,4 +1,26 @@
 * i3
+** what's that key? [[https://rabbitictranslator.com/wordpress/index.php/2020/01/12/analyzing-i3-keyboard-shortcuts/][source]]
+*** use program =xev= to detect what keys are called
+eg:
+#+begin_example
+KeyPress event, serial 34, synthetic NO, window 0x4c00001,
+    root 0x7c0, subw 0x0, time 354947338, (357,422), root:(1001,442),
+    state 0x0, keycode 66 (keysym 0xffe3, Control_L), same_screen YES,
+    XLookupString gives 0 bytes:
+    XmbLookupString gives 0 bytes:
+    XFilterEvent returns: False
+#+end_example
+*** bindsym
+**** 1: =bindsym $key exec ...=: bg process on key press
+**** 2: =bindsym $mod+$key exec ...= same, with mod key
+**** 3: =bindsym $mod+Shift-$key exec "command "=
+**** use i3-nagbar to push a message
+#+begin_src
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#+end_src
+
+
+
 ** https://medium.com/@marinalimeira/getting-started-with-i3wm-c55a49bb9652
 set $mod Mod4
 
