@@ -10,17 +10,6 @@ KeyPress event, serial 34, synthetic NO, window 0x4c00001,
     XmbLookupString gives 0 bytes:
     XFilterEvent returns: False
 #+end_example
-*** bindsym
-**** 1: =bindsym $key exec ...=: bg process on key press
-**** 2: =bindsym $mod+$key exec ...= same, with mod key
-**** 3: =bindsym $mod+Shift-$key exec "command "=
-**** use i3-nagbar to push a message
-#+begin_src
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-#+end_src
-
-
-
 ** https://medium.com/@marinalimeira/getting-started-with-i3wm-c55a49bb9652
 set $mod Mod4
 

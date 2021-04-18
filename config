@@ -1,19 +1,11 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-# Todo:
-# - background image
-# - Fnkeys
-# - xdg customize
-# - understand xss-lock
-# further theme customization: j4-make-config
+# - further theme customization: j4-make-config
 # - better bar than i3bar: https://github.com/polybar/polybar
 # - better status than i3status: https://github.com/brndnmtthws/conky
+# - lock screen
 
 set $mod Mod4
 font pango:monospace 9
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # nm-applet is a desktop system tray GUI for Network Manager.
 exec --no-startup-id nm-applet
@@ -26,7 +18,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec ~/.config/i3/tk_setbrightness.sh -inc 10
 bindsym XF86MonBrightnessDown exec ~/.config/i3/tk_setbrightness.sh -dec 10
-# fn-f2 XF86TouchpadToggle, fn-f7, f10 does nothing
+# fn-f2 XF86TouchpadToggle, fn-f7, fnf10 do nothing so far
 
 # quick starts
 bindsym $mod+Return exec gnome-terminal
@@ -36,11 +28,11 @@ bindsym $mod+Shift+o exec telegram
 bindsym $mod+o exec signal
 
 # startup applications; some apps require some coercing.
-for_window i3-msg '[class="Discord"] move container to workspace $ws1'
-for_window i3-msg '[class="telegram"] move container to workspace $ws1'
-for_window i3-msg '[class="signal-desktop"] move container to workspace $ws1'
-for_window i3-msg '[class="Spotify"] move container to workspace $ws10'
-for_window i3-msg '[class="brave-browser-stable"] move container to workspace $ws9'
+for_window [class="Discord"] move container to workspace $ws1
+for_window [class="telegram"] move container to workspace $ws1
+for_window [class="signal-desktop"] move container to workspace $ws1
+for_window [class="Spotify"] move container to workspace $ws10
+for_window [class="brave-browser-stable"] move container to workspace $ws9
 exec --no-startup-id i3-msg 'workspace 2; exec emacs'
 exec --no-startup-id i3-msg 'workspace 10; exec gnome-terminal'
 exec --no-startup-id i3-msg 'workspace 10; exec spotify'
@@ -48,6 +40,9 @@ exec --no-startup-id i3-msg 'workspace 9; exec brave-browser-stable'
 exec --no-startup-id i3-msg 'workspace 1; exec signal-desktop'
 exec --no-startup-id i3-msg 'workspace 1; exec /opt/telegram/telegram'
 exec --no-startup-id i3-msg 'workspace 1; exec /usr/share/discord/Discord'
+
+# background image
+# exec --no-startup-id i3-msg 'feh --bg-scale ~/Pictures/like/ditherpunk.png'
 
 # logout (no nag)
 bindsym $mod+Shift+e exit
