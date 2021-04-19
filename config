@@ -4,6 +4,7 @@
 # - better status than i3status: https://github.com/brndnmtthws/conky
 # - lock screen
 
+set $alt Mod1
 set $mod Mod4
 font pango:monospace 9
 
@@ -40,6 +41,12 @@ exec --no-startup-id i3-msg 'workspace 9; exec brave-browser-stable'
 exec --no-startup-id i3-msg 'workspace 1; exec signal-desktop'
 exec --no-startup-id i3-msg 'workspace 1; exec /opt/telegram/telegram'
 exec --no-startup-id i3-msg 'workspace 1; exec /usr/share/discord/Discord'
+
+# launch secondary displays
+bindsym $mod+Control+1 exec xrandr --output HDMI-1 --auto --above eDP-1
+bindsym $mod+$alt+1 exec xrandr --output HDMI-1 --off
+bindsym $mod+Control+2 exec xrandr --output DP-1 --auto --left-of HDMI-1
+bindsym $mod+$alt+2 exec xrandr --output DP-1 --off
 
 # background image
 # exec --no-startup-id i3-msg 'feh --bg-scale ~/Pictures/like/ditherpunk.png'
